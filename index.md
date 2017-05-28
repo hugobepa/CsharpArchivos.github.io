@@ -1,37 +1,94 @@
-## Welcome to GitHub Pages
+## C# Archivos y directorios
 
-You can use the [editor on GitHub](https://github.com/hugobepa/CsharpArchivos.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Tratamiento  C#  Archivos y Directorios
 
-### Markdown
+- data:text/html, <html contenteditable>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+[guia basica markdown](https://github.com/ricval/Documentacion/blob/master/Guias/GitHub/mastering-markdown.md)
+[guia completa markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+[guia C#  file y directorios](https://docs.microsoft.com/es-es/dotnet/csharp/programming-guide/file-system/how-to-get-information-about-files-folders-and-drives)
+[guia C#](https://docs.microsoft.com/es-es/dotnet/csharp/programming-guide/file-system/)
 
-- Bulleted
-- List
+[Link API  DirectoryInfo](https://msdn.microsoft.com/es-es/library/system.io.directoryinfo(v=vs.110))
+[Link  API FileInfo](https://msdn.microsoft.com/es-es/library/system.io.fileinfo(v=vs.110))
+[Link  API Directory](https://msdn.microsoft.com/es-es/library/system.io.directory(v=vs.110))
+[Link  API Path](https://msdn.microsoft.com/es-es/library/system.io.path(v=vs.110))
 
-1. Numbered
-2. List
+### Informacion archivos, carpetas y unidades
 
-**Bold** and _Italic_ and `Code` text
+#### using
 
-[Link](url) and ![Image](src)
-```
+>System.IO.FileInfo
+>System.IO.DirectoryInfo
+>System.IO.DriveInfo
+>System.IO.Directory
+>System.IO.File
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+#### Trabajar con directorio
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hugobepa/CsharpArchivos.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+ >System.IO.DriveInfo di = new System.IO.DriveInfo(@"C:\");
+ 
+#### Extraer informacionDirectorio
 
-### Support or Contact
+        Console.WriteLine(di.TotalFreeSpace);
+        Console.WriteLine(di.VolumeLabel);
+        
+#### Ruta Directorio
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+		System.IO.DirectoryInfo dirInfo = di.RootDirectory;
+		Console.WriteLine(dirInfo.Attributes.ToString());
+    
+#### Obtener archivos
+
+        System.IO.FileInfo[] fileNames = dirInfo.GetFiles("*.*");
+        
+        foreach (System.IO.FileInfo fi in fileNames) fi.Name, fi.LastAccessTime, fi.Length
+        
+#### SubDirectorios
+
+			System.IO.DirectoryInfo[] dirInfos = dirInfo.GetDirectories("*.*");
+  
+			foreach (System.IO.DirectoryInfo d in dirInfos)  Console.WriteLine(d.Name);
+			
+	> catch (System.IO.FileNotFoundException e)
+	
+####File
+
+	fi = new System.IO.FileInfo(s);  fi.Name, fi.Directory;
+	
+####Direcory
+
+		> boolean b= !Directory.Exists(@"C:\Users\Public\TestFolder\") or .Exists("C:\\Users\\Public")
+		
+####Crear Subdirectorio
+
+		> string folderName = @"c:\Top-Level Folder";
+        > string pathString = System.IO.Path.Combine(folderName, "SubFolder"); 
+        > System.IO.Directory.CreateDirectory(pathString);
+        
+#### Crear file en Directorio
+
+		> //string fileName = "MyNewFile.txt";  String pathString = System.IO.Path.Combine(pathString, fileName);
+		
+		>boolean b=!System.IO.File.Exists(pathString);
+
+#### Copiar Archivos de directorio a otro
+
+		>string sourcePath = @"C:\Users\Public\TestFolder\text.txt";
+        >string targetPath =  @"C:\Users\Public\TestFolder\SubDir.txt";
+        >System.IO.File.Copy(sourceFile, destFile, true);
+        
+#### Metodo copia archivos 2
+
+		>System.IO.Directory.GetFiles(sourcePath);
+
+            
+                >Use static Path methods to extract only the file name from the path.
+                >fileName = System.IO.Path.GetFileName(s);
+                >file= "txt.doc"
+                >destFile = System.IO.Path.Combine(targetPath, fileName);
+                >System.IO.File.Copy(file, destFile, true);
